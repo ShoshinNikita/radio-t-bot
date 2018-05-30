@@ -1,0 +1,7 @@
+*.key
+*.pem
+*.bat
+pkg
+.vscode
+*.log
+radio-t-bot

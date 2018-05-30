@@ -1,0 +1,70 @@
+package bot
+
+import (
+	"encoding/json"
+	"net/http"
+	"strings"
+
+	"logging"
+)
+
+// Index serves POST requests
+func Index(w http.ResponseWriter, r *http.Request) {
+	var req Request
+	json.NewDecoder(r.Body).Decode(&req)
+
+	var res Response
+	res.Response.Text, res.Response.TTS, res.Response.Buttons, res.Response.EndSession = distribute(req.Request.Command)
+
+	res.Session.SessionID = req.Session.SessionID
+	res.Session.MessageID = req.Session.MessageID
+	res.Session.UserID = req.Session.UserID
+	res.Version = req.Version
+
+	json.NewEncoder(w).Encode(res)
+}
+
+var commands = []struct {
+	keyWords []string
+	handler  func() (string, string, []Button, bool, error)
+}{
+	{[]string{"подкаст выходного дня", "радио-т", "радиот", "радио т"}, mainInfo}, // main info
+	{[]string{"сайт подкаста"}, siteURL},                                          // url of the site
+	{[]string{"последний выпуск", "новый выпуск"}, lastRelease},                   // info about the last release
+	{[]string{"следующий выпуск"}, nextRelease},                                   // date of the next release
+	{[]string{"следующий гиковский выпуск", "гиковский выпуск"}, nextGeekRelease}, // date of the next geek release
+	{[]string{"закончить"}, endConverseation},                                     // stop dialogue
+}
+
+func distribute(command string) (text, tts string, buttons []Button, endSession bool) {
+	command = strings.ToLower(command)
+	logging.LogRequest(command)
+
+	rightCommand := false
+	var err error
+	for i := 0; i < len(commands) && !rightCommand; i++ {
+		for j := 0; j < len(commands[i].keyWords) && !rightCommand; j++ {
+			keyWord := commands[i].keyWords[j]
+			if strings.Contains(command, keyWord) {
+				text, tts, buttons, endSession, err = commands[i].handler()
+				rightCommand = true
+			}
+		}
+	}
+
+	if err != nil {
+		logging.LogError(err)
+		return "Ой, что-то пошло не так", "", []Button{}, true
+	} else if !rightCommand {
+		buttons = []Button{
+			Button{Title: "Закончить ❌"},
+			Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
+			Button{Title: "Последний выпуск", Hide: false},
+			Button{Title: "Следующий выпуск", Hide: false},
+			Button{Title: "Следующий гиковский выпуск", Hide: false},
+		}
+		return "Неверная команда", "Неверная команда. Может, что-то из этого подойдёт?", buttons, false
+	}
+
+	return text, tts, buttons, endSession
+}
