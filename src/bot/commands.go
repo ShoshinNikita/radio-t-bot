@@ -16,7 +16,7 @@ func mainInfo() (text, tts string, buttons []Button, endSession bool, err error)
 	tts = mainInformationTTS
 	buttons = []Button{
 		Button{Title: "Закончить ❌"},
-		Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
+		Button{Title: "Сайт подкаста", URL: site, Hide: false},
 		Button{Title: "Последний выпуск", Hide: false},
 		Button{Title: "Следующий выпуск", Hide: false},
 		Button{Title: "Следующий гиковский выпуск", Hide: false},
@@ -27,7 +27,7 @@ func mainInfo() (text, tts string, buttons []Button, endSession bool, err error)
 
 // Returns URL of the site
 func siteURL() (text, tts string, buttons []Button, endSession bool, err error) {
-	buttons = append(buttons, Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false})
+	buttons = append(buttons, Button{Title: "Сайт подкаста", URL: site, Hide: false})
 	return "", "", buttons, true, nil
 }
 
@@ -51,7 +51,7 @@ func lastRelease() (text, tts string, buttons []Button, endSession bool, err err
 	buttons = []Button{
 		Button{Title: "Перейти к выпуску", URL: url},
 		Button{Title: "Закончить ❌"},
-		Button{Title: "Сайт подкаста", URL: "https://radio-t.com/"},
+		Button{Title: "Сайт подкаста", URL: site},
 		Button{Title: "Следующий выпуск"},
 		Button{Title: "Следующий гиковский выпуск"},
 	}
@@ -72,7 +72,7 @@ func nextRelease() (text, tts string, buttons []Button, endSession bool, err err
 	tts = fmt.Sprintf(nextReleaseTTS, days, day, hours, hour)
 	buttons = []Button{
 		Button{Title: "Закончить ❌"},
-		Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
+		Button{Title: "Сайт подкаста", URL: site, Hide: false},
 		Button{Title: "Последний выпуск", Hide: false},
 		Button{Title: "Следующий гиковский выпуск", Hide: false},
 	}
@@ -90,7 +90,7 @@ func nextGeekRelease() (text, tts string, buttons []Button, endSession bool, err
 	tts = fmt.Sprintf(nextGeekReleaseTTS, days, day, hours, hour)
 	buttons = []Button{
 		Button{Title: "Закончить ❌"},
-		Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
+		Button{Title: "Сайт подкаста", URL: site, Hide: false},
 		Button{Title: "Последний выпуск", Hide: false},
 		Button{Title: "Следующий выпуск", Hide: false},
 	}

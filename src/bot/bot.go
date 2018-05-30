@@ -52,10 +52,7 @@ func distribute(command string) (text, tts string, buttons []Button, endSession 
 		}
 	}
 
-	if err != nil {
-		logging.LogError(err)
-		return "Ой, что-то пошло не так", "", []Button{}, true
-	} else if !rightCommand {
+	if err != nil || !rightCommand {
 		buttons = []Button{
 			Button{Title: "Закончить ❌"},
 			Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
@@ -63,7 +60,16 @@ func distribute(command string) (text, tts string, buttons []Button, endSession 
 			Button{Title: "Следующий выпуск", Hide: false},
 			Button{Title: "Следующий гиковский выпуск", Hide: false},
 		}
-		return "Неверная команда", "Неверная команда. Может, что-то из этого подойдёт?", buttons, false
+		endSession = false
+
+		if err != nil {
+			logging.LogError(err)
+			text = errorText
+			tts = errorTTS
+		} else if !rightCommand {
+			text = wrongCommandText
+			tts = wrongCommandTTS
+		}
 	}
 
 	return text, tts, buttons, endSession
