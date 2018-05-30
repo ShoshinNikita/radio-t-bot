@@ -1,10 +1,10 @@
-
 package dates_test
-/*
+
 import (
-	dp "dateparse"
 	"testing"
 	"time"
+
+	. "dates"
 )
 
 func TestParse(t *testing.T) {
@@ -17,70 +17,68 @@ func TestParse(t *testing.T) {
 		{"Sat, 17 Mar 2018 18:48:06 EST", "17 Марта 2018"},
 	}
 	for i, test := range tests {
-		if dp.ParseDate(test.test) != test.answer {
+		if ParseDate(test.test) != test.answer {
 			t.Errorf("Test #%d Want: %s Got: %s", i, test.answer, test.test)
-		}
-	}
-}
-
-func TestToDays(t *testing.T) {
-	tests := []struct {
-		time   string
-		answer int
-	}{
-		{"78h35m18s", 3},
-		{"120h", 5},
-		{"23h", 1},
-		{"73h", 3},
-	}
-	for i, test := range tests {
-		d, err := time.ParseDuration(test.time)
-		if err != nil {
-			t.Error(err)
-			continue
-		}
-
-		res := dp.ToDays(d)
-		if res != test.answer {
-			t.Errorf("Test #%d Want: %d Got: %d", i, test.answer, res)
 		}
 	}
 }
 
 func TestNextSaturday(t *testing.T) {
 	tests := []struct {
-		time   int64
-		answer int
+		time  int64
+		days  int
+		hours int
 	}{
 		{
-			1527605489, // 2018/5/29 14.51.29
-			4,
+			1527605489, // 2018/5/29 17.51.29
+			4, 6,
 		},
 		{
-			1525186289, // 2018/5/1 14.51.29
-			4,
+			1525186289, // 2018/5/1 17.51.29
+			4, 6,
 		},
 		{
-			1527951089, // 2018/6/2 14.51.29
-			0,
+			1527951089, // 2018/6/2 17.51.29
+			0, 6,
 		},
 	}
 
 	for i, test := range tests {
-		d := time.Unix(test.time, 0)
-
-		res := dp.NextSaturday(d)
-		if res != test.answer {
-			t.Errorf("Test #%d Want: %d Got: %d", i, test.answer, res)
+		d, h := NextSaturday(time.Unix(test.time, 0))
+		if d != test.days || h != test.hours {
+			t.Errorf("Test #%d Want: %d %d Got: %d %d", i, test.days, test.hours, d, h)
 		}
 	}
 }
 
-func Test_roundDate(t *testing.T) {
+func TestNextGeekSaturday(t *testing.T) {
 	tests := []struct {
-		test   time.Time
-		answer time.Time
-	}{}
+		time  int64
+		days  int
+		hours int
+	}{
+		{
+			1527605489, // 2018/05/29 17.51.29
+			4, 6,
+		},
+		{
+			1525186289, // 2018/05/01 17.51.29
+			4, 6,
+		},
+		{
+			1527951089, // 2018/06/02 17.51.29
+			0, 6,
+		},
+		{
+			1526840659, // 2018/05/20 21.24.19
+			13, 2,
+		},
+	}
 
+	for i, test := range tests {
+		d, h := NextGeekSaturday(time.Unix(test.time, 0))
+		if d != test.days || h != test.hours {
+			t.Errorf("Test #%d Want: %d %d Got: %d %d", i, test.days, test.hours, d, h)
+		}
+	}
 }
-*/
