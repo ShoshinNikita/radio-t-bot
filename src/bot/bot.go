@@ -93,6 +93,7 @@ func distribute(command string) (text, tts string, buttons []Button, endSession 
 
 	if err != nil || !rightCommand {
 		buttons = []Button{
+			Button{Title: "Помощь"},
 			Button{Title: "Закончить ❌"},
 			Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
 			Button{Title: "Последний выпуск", Hide: false},

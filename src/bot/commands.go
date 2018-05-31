@@ -102,7 +102,6 @@ func nextGeekRelease() (text, tts string, buttons []Button, endSession bool, err
 func botInfo() (text, tts string, buttons []Button, endSession bool, err error) {
 	buttons = []Button{
 		Button{Title: "Закончить ❌"},
-		Button{Title: "Помощь"},
 		Button{Title: "Сайт подкаста", URL: site, Hide: false},
 		Button{Title: "Последний выпуск", Hide: false},
 		Button{Title: "Следующий выпуск", Hide: false},
