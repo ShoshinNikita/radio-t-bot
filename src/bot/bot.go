@@ -28,13 +28,45 @@ var commands = []struct {
 	keyWords []string
 	handler  func() (string, string, []Button, bool, error)
 }{
-	{[]string{"подкаст выходного дня", "радио-т", "радиот", "радио т"}, mainInfo}, // main info
-	{[]string{"сайт подкаста"}, siteURL},                                          // url of the site
-	{[]string{"последний выпуск", "новый выпуск"}, lastRelease},                   // info about the last release
-	{[]string{"следующий выпуск"}, nextRelease},                                   // date of the next release
-	{[]string{"следующий гиковский выпуск", "гиковский выпуск"}, nextGeekRelease}, // date of the next geek release
-	{[]string{"помощь"}, botInfo},                                                 // send info about the bot
-	{[]string{"закончить"}, endConverseation},                                     // stop dialogue
+	{[]string{
+		"подкаст выходного дня",
+		"радио-т",
+		"радиот",
+		"радио т",
+		"что такое подкаст выходного дня",
+		"что такое радио-т",
+		"что такое радиот",
+		"что такое радио т"},
+		mainInfo}, // main info
+	{[]string{
+		"сайт радио т",
+		"сайт радио-т",
+		"сайт радиот",
+		"сайт подкаста"},
+		siteURL}, // url of the site
+	{[]string{
+		"последний выпуск",
+		"новый выпуск",
+		"информация о последнем выпуске",
+		"информация о новом выпуске"},
+		lastRelease}, // info about the last release
+	{[]string{"следующий выпуск"},
+		nextRelease}, // date of the next release
+	{[]string{
+		"следующий гиковский выпуск",
+		"гиковский выпуск"},
+		nextGeekRelease}, // date of the next geek release
+	{[]string{
+		"помощь",
+		"что умеет",
+		"что умеешь",
+		"что этот бот умеет",
+		"что этот бот может",
+		"что можешь",
+		"что ты можешь"},
+		botInfo}, // send info about the bot
+	{[]string{"закончить"},
+		endConverseation}, // stop dialogue
 }
 
 func distribute(command string) (text, tts string, buttons []Button, endSession bool) {
