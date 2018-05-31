@@ -33,12 +33,19 @@ var commands = []struct {
 	{[]string{"последний выпуск", "новый выпуск"}, lastRelease},                   // info about the last release
 	{[]string{"следующий выпуск"}, nextRelease},                                   // date of the next release
 	{[]string{"следующий гиковский выпуск", "гиковский выпуск"}, nextGeekRelease}, // date of the next geek release
+	{[]string{"помощь"}, botInfo},                                                 // send info about the bot
 	{[]string{"закончить"}, endConverseation},                                     // stop dialogue
 }
 
 func distribute(command string) (text, tts string, buttons []Button, endSession bool) {
 	command = strings.ToLower(command)
 	logging.LogRequest(command)
+
+	// If phrase == "Запусти навык подкаст выходного дня"
+	if command == "" {
+		text, tts, buttons, endSession, _ = botInfo()
+		return text, tts, buttons, endSession
+	}
 
 	rightCommand := false
 	var err error
