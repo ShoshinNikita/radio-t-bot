@@ -66,7 +66,11 @@ var commands = []struct {
 		"что можешь",
 		"что ты можешь"},
 		botInfo}, // send info about the bot
-	{[]string{"закончить"},
+	{[]string{
+		"закончить",
+		"всё",
+		"все",
+		"конец"},
 		endConverseation}, // stop dialogue
 }
 
@@ -95,11 +99,11 @@ func distribute(command string) (text, tts string, buttons []Button, endSession 
 	if err != nil || !rightCommand {
 		buttons = []Button{
 			Button{Title: "Помощь"},
-			Button{Title: "Закончить ❌"},
 			Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
 			Button{Title: "Последний выпуск", Hide: false},
 			Button{Title: "Следующий выпуск", Hide: false},
 			Button{Title: "Следующий гиковский выпуск", Hide: false},
+			Button{Title: "Закончить ❌"},
 		}
 		endSession = false
 
