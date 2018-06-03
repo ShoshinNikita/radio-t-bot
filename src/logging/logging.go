@@ -14,7 +14,7 @@ var mutex *sync.Mutex
 
 func Init(path string) (err error) {
 	mutex = new(sync.Mutex)
-	logFile, err = os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0644)
+	logFile, err = os.OpenFile(path, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	return err
 }
 
