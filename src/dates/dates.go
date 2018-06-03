@@ -37,11 +37,14 @@ func NextSaturday(now time.Time) (days, hours int) {
 }
 
 func NextGeekSaturday(now time.Time) (days, hours int) {
-	if now.Day() < 7 && now.Weekday() <= time.Saturday {
-		return NextSaturday(now)
+	// Check if is it new month
+	for temp := now; temp.Day() < 7; temp = temp.Add(time.Hour * 24) {
+		if temp.Weekday() == time.Saturday {
+			return NextSaturday(now)
+		}
 	}
 
-	geekSat := now.AddDate(0, 1, -now.Day())
+	geekSat := now.AddDate(0, 1, -now.Day()+1)
 	for geekSat.Weekday() != time.Saturday {
 		geekSat = geekSat.Add(24 * time.Hour)
 	}
