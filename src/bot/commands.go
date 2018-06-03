@@ -29,7 +29,7 @@ func mainInfo() (text, tts string, buttons []Button, endSession bool, err error)
 // Returns URL of the site
 func siteURL() (text, tts string, buttons []Button, endSession bool, err error) {
 	buttons = append(buttons, Button{Title: "Сайт подкаста", URL: site, Hide: false})
-	return "", "", buttons, true, nil
+	return "Сайт подкаста Радио-Т", "", buttons, false, nil
 }
 
 // Returns number and URL of the last release
