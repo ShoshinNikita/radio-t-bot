@@ -34,6 +34,11 @@ var dayForms = map[interval]string{
 	interval{22, 24}: "дня",
 	interval{25, 30}: "дней",
 	interval{31, 31}: "день",
+	interval{32, 34}: "дня",
+	interval{35, 40}: "дней",
+	interval{41, 41}: "день",
+	interval{42, 44}: "дня",
+	interval{45, 50}: "дней",
 }
 
 var hourForms = map[interval]string{
