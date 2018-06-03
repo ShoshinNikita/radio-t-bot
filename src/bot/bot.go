@@ -76,6 +76,11 @@ var commands = []struct {
 
 func distribute(command string) (text, tts string, buttons []Button, endSession bool) {
 	command = strings.ToLower(command)
+	// For Yandex ping
+	if command == "ping" {
+		return "pong", "pong", buttons, true
+	}
+
 	logging.LogRequest(command)
 
 	// If phrase == "Запусти навык подкаст выходного дня"
