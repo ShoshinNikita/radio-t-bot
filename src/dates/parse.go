@@ -26,6 +26,7 @@ type interval struct {
 }
 
 var dayForms = map[interval]string{
+	interval{0, 0}:   "дней",
 	interval{1, 1}:   "день",
 	interval{2, 4}:   "дня",
 	interval{5, 20}:  "дней",
@@ -36,6 +37,7 @@ var dayForms = map[interval]string{
 }
 
 var hourForms = map[interval]string{
+	interval{0, 0}:   "часов",
 	interval{1, 1}:   "час",
 	interval{2, 4}:   "часа",
 	interval{5, 20}:  "часов",
