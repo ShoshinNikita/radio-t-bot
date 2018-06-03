@@ -1,11 +1,10 @@
 package bot
 
 import (
-	"regexp"
 	"strings"
-)
 
-var topicsRegexp = regexp.MustCompile(`<a href=".*">(?P<news>.*?)</a>`)
+	"github.com/anaskhan96/soup"
+)
 
 // Returns number of a release
 func getNumber(s string) string {
@@ -13,13 +12,23 @@ func getNumber(s string) string {
 	return array[len(array)-1]
 }
 
-func parseNews(s string) (themes string) {
-	matches := topicsRegexp.FindAllStringSubmatch(s, -1)
-	var news []string
-
-	for _, m := range matches {
-		news = append(news, m[1])
+func parseNews(s string) (topics string, err error) {
+	root := soup.HTMLParse(s)
+	if root.Error != nil {
+		return "", root.Error
 	}
+
+	var news []string
+	for _, topic := range root.FindAll("li") {
+		if topic.Error != nil {
+			continue
+		}
+		desc := topic.Find("a")
+		if desc.Error == nil {
+			news = append(news, desc.Text())
+		}
+	}
+
 	news[0] = "* " + news[0]
-	return strings.Join(news, "\n* ")
+	return strings.Join(news, "\n* "), nil
 }

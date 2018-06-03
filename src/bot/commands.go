@@ -42,7 +42,10 @@ func lastRelease() (text, tts string, buttons []Button, endSession bool, err err
 
 	number := getNumber(feed.Items[0].Title)
 	url := feed.Items[0].GUID
-	themes := parseNews(feed.Items[0].Description)
+	themes, err := parseNews(feed.Items[0].Description)
+	if err != nil {
+		return "", "", buttons, false, err
+	}
 	date := dates.ParseDate(feed.Items[0].Published)
 
 	// Clear // in url
