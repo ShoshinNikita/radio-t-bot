@@ -15,12 +15,12 @@ func mainInfo() (text, tts string, buttons []Button, endSession bool, err error)
 	text = mainInformationText
 	tts = mainInformationTTS
 	buttons = []Button{
-		Button{Title: "Закончить ❌"},
 		Button{Title: "Помощь"},
 		Button{Title: "Сайт подкаста", URL: site, Hide: false},
 		Button{Title: "Последний выпуск", Hide: false},
 		Button{Title: "Следующий выпуск", Hide: false},
 		Button{Title: "Следующий гиковский выпуск", Hide: false},
+		Button{Title: "Закончить ❌"},
 	}
 
 	return text, tts, buttons, false, nil
@@ -54,10 +54,10 @@ func lastRelease() (text, tts string, buttons []Button, endSession bool, err err
 
 	buttons = []Button{
 		Button{Title: "Перейти к выпуску", URL: url},
-		Button{Title: "Закончить ❌"},
 		Button{Title: "Сайт подкаста", URL: site},
 		Button{Title: "Следующий выпуск"},
 		Button{Title: "Следующий гиковский выпуск"},
+		Button{Title: "Закончить ❌"},
 	}
 
 	text = fmt.Sprintf(lastReleaseText, number, date, themes)
@@ -75,10 +75,10 @@ func nextRelease() (text, tts string, buttons []Button, endSession bool, err err
 	text = fmt.Sprintf(nextReleaseText, days, day, hours, hour)
 	tts = fmt.Sprintf(nextReleaseTTS, days, day, hours, hour)
 	buttons = []Button{
-		Button{Title: "Закончить ❌"},
 		Button{Title: "Сайт подкаста", URL: site, Hide: false},
 		Button{Title: "Последний выпуск", Hide: false},
 		Button{Title: "Следующий гиковский выпуск", Hide: false},
+		Button{Title: "Закончить ❌"},
 	}
 
 	return text, tts, buttons, false, nil
@@ -93,10 +93,10 @@ func nextGeekRelease() (text, tts string, buttons []Button, endSession bool, err
 	text = fmt.Sprintf(nextGeekReleaseText, days, day, hours, hour)
 	tts = fmt.Sprintf(nextGeekReleaseTTS, days, day, hours, hour)
 	buttons = []Button{
-		Button{Title: "Закончить ❌"},
 		Button{Title: "Сайт подкаста", URL: site, Hide: false},
 		Button{Title: "Последний выпуск", Hide: false},
 		Button{Title: "Следующий выпуск", Hide: false},
+		Button{Title: "Закончить ❌"},
 	}
 
 	return text, tts, buttons, false, nil
@@ -104,11 +104,11 @@ func nextGeekRelease() (text, tts string, buttons []Button, endSession bool, err
 
 func botInfo() (text, tts string, buttons []Button, endSession bool, err error) {
 	buttons = []Button{
-		Button{Title: "Закончить ❌"},
 		Button{Title: "Сайт подкаста", URL: site, Hide: false},
 		Button{Title: "Последний выпуск", Hide: false},
 		Button{Title: "Следующий выпуск", Hide: false},
 		Button{Title: "Следующий гиковский выпуск", Hide: false},
+		Button{Title: "Закончить ❌"},
 	}
 	return botInfoText, botInfoTTS, buttons, false, nil
 }
