@@ -39,10 +39,7 @@ var commands = []struct {
 		"что такое радио т"},
 		mainInfo}, // main info
 	{[]string{
-		"сайт радио т",
-		"сайт радио-т",
-		"сайт радиот",
-		"сайт подкаста"},
+		"сайт"},
 		siteURL}, // url of the site
 	{[]string{
 		"последний выпуск",
