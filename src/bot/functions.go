@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+var topicsRegexp = regexp.MustCompile(`<a href=".*">(?P<news>.*?)</a>`)
+
 // Returns number of a release
 func getNumber(s string) string {
 	array := strings.Split(s, " ")
@@ -12,8 +14,7 @@ func getNumber(s string) string {
 }
 
 func parseNews(s string) (themes string) {
-	r := regexp.MustCompile(`<li>(?:<a href=".*">)?(?P<news>.*?)(?:</a>\.)?</li>`)
-	matches := r.FindAllStringSubmatch(s, -1)
+	matches := topicsRegexp.FindAllStringSubmatch(s, -1)
 	var news []string
 
 	for _, m := range matches {
@@ -22,4 +23,3 @@ func parseNews(s string) (themes string) {
 	news[0] = "* " + news[0]
 	return strings.Join(news, "\n* ")
 }
-
