@@ -64,10 +64,18 @@ var commands = []struct {
 		"что ты можешь"},
 		botInfo}, // send info about the bot
 	{[]string{
+		"проиграй",
+		"запусти",
+		"включи",
+		"послушать",
+		"слушать"},
+		playRelease},
+	{[]string{
 		"закончить",
 		"всё",
 		"все",
-		"конец"},
+		"конец",
+		"до свидания"},
 		endConverseation}, // stop dialogue
 }
 
