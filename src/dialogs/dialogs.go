@@ -10,7 +10,7 @@ type DialogsAPI struct {
 	DistributeFunc func(Request) (text, tts string, buttons []Button, endSession bool)
 }
 
-func (api *DialogsAPI) StartSevring() func(http.ResponseWriter, *http.Request) {
+func (api *DialogsAPI) StartServing() func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req Request
 		json.NewDecoder(r.Body).Decode(&req)

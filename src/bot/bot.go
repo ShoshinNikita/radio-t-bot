@@ -11,7 +11,7 @@ import (
 // Init return function for serving of requests
 func Init() func(http.ResponseWriter, *http.Request) {
 	api := dialogs.DialogsAPI{DistributeFunc: distribute}
-	return api.StartSevring()
+	return api.StartServing()
 }
 
 var commands = []struct {
