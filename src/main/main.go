@@ -27,7 +27,7 @@ func main() {
 	router.Path("/").Methods("POST").HandlerFunc(bot.Index)
 	router.Path("/").Methods("GET").HandlerFunc(index)
 
-	if err := logging.Init("logs.log"); err != nil {
+	if err := logging.Init("logs"); err != nil {
 		log.Fatalf("[ERR] %s", err.Error())
 	}
 

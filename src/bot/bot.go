@@ -14,7 +14,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 	json.NewDecoder(r.Body).Decode(&req)
 
 	var res Response
-	res.Response.Text, res.Response.TTS, res.Response.Buttons, res.Response.EndSession = distribute(req.Request.Command)
+	res.Response.Text, res.Response.TTS, res.Response.Buttons, res.Response.EndSession = distribute(req)
 
 	res.Session.SessionID = req.Session.SessionID
 	res.Session.MessageID = req.Session.MessageID
@@ -71,14 +71,14 @@ var commands = []struct {
 		endConverseation}, // stop dialogue
 }
 
-func distribute(command string) (text, tts string, buttons []Button, endSession bool) {
-	command = strings.ToLower(command)
+func distribute(req Request) (text, tts string, buttons []Button, endSession bool) {
+	command := strings.ToLower(req.Request.Command)
 	// For Yandex ping
 	if command == "ping" {
 		return "pong", "pong", buttons, true
 	}
 
-	logging.LogRequest(command)
+	logging.LogRequest(command, req.Session.SessionID)
 
 	// If phrase == "Запусти навык подкаст выходного дня"
 	if command == "" {
