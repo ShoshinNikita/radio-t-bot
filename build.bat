@@ -8,5 +8,5 @@ IF "%command%" == "y" (
 	SET GOARCH=amd64
 	go build -o app/radio-t-bot src/main/main.go
 
-	CALL buildImage
+	docker build -t radio-t-bot .
 )
