@@ -1,5 +1,9 @@
 package bot
 
+import (
+	"dialogs"
+)
+
 const (
 	rssURL = "http://feeds.rucast.net/radio-t"
 
@@ -43,3 +47,12 @@ const botInfoText = `Это бот для еженедельного HiTech по
 
 Что вы хотите узнать?`
 const botInfoTTS = "Это бот для еженедельного Х+айТ+эк падкаста Радио-Т. - - - - - - - - - - Что вы хотите узнать?"
+
+var defaultButtons = []dialogs.Button{
+	dialogs.Button{Title: "Помощь"},
+	dialogs.Button{Title: "Сайт подкаста", URL: site},
+	dialogs.Button{Title: "Последний выпуск"},
+	dialogs.Button{Title: "Следующий выпуск"},
+	dialogs.Button{Title: "Следующий гиковский выпуск"},
+	dialogs.Button{Title: "Закончить ❌"},
+}

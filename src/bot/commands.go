@@ -15,21 +15,14 @@ import (
 func mainInfo() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
 	text = mainInformationText
 	tts = mainInformationTTS
-	buttons = []dialogs.Button{
-		dialogs.Button{Title: "Помощь"},
-		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		dialogs.Button{Title: "Последний выпуск", Hide: false},
-		dialogs.Button{Title: "Следующий выпуск", Hide: false},
-		dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
-		dialogs.Button{Title: "Закончить ❌"},
-	}
+	buttons = defaultButtons
 
 	return text, tts, buttons, false, nil
 }
 
 // Returns URL of the site
 func siteURL() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
-	buttons = append(buttons, dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false})
+	buttons = append(buttons, dialogs.Button{Title: "Сайт подкаста", URL: site})
 	return "Сайт подкаста Радио-Т", "", buttons, false, nil
 }
 
@@ -76,9 +69,9 @@ func nextRelease() (text, tts string, buttons []dialogs.Button, endSession bool,
 	text = fmt.Sprintf(nextReleaseText, days, day, hours, hour)
 	tts = fmt.Sprintf(nextReleaseTTS, days, day, hours, hour)
 	buttons = []dialogs.Button{
-		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		dialogs.Button{Title: "Последний выпуск", Hide: false},
-		dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
+		dialogs.Button{Title: "Сайт подкаста", URL: site},
+		dialogs.Button{Title: "Последний выпуск"},
+		dialogs.Button{Title: "Следующий гиковский выпуск"},
 		dialogs.Button{Title: "Закончить ❌"},
 	}
 
@@ -94,9 +87,9 @@ func nextGeekRelease() (text, tts string, buttons []dialogs.Button, endSession b
 	text = fmt.Sprintf(nextGeekReleaseText, days, day, hours, hour)
 	tts = fmt.Sprintf(nextGeekReleaseTTS, days, day, hours, hour)
 	buttons = []dialogs.Button{
-		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		dialogs.Button{Title: "Последний выпуск", Hide: false},
-		dialogs.Button{Title: "Следующий выпуск", Hide: false},
+		dialogs.Button{Title: "Сайт подкаста", URL: site},
+		dialogs.Button{Title: "Последний выпуск"},
+		dialogs.Button{Title: "Следующий выпуск"},
 		dialogs.Button{Title: "Закончить ❌"},
 	}
 
@@ -104,25 +97,12 @@ func nextGeekRelease() (text, tts string, buttons []dialogs.Button, endSession b
 }
 
 func playRelease() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
-	buttons = []dialogs.Button{
-		dialogs.Button{Title: "Помощь"},
-		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		dialogs.Button{Title: "Последний выпуск", Hide: false},
-		dialogs.Button{Title: "Следующий выпуск", Hide: false},
-		dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
-		dialogs.Button{Title: "Закончить ❌"},
-	}
+	buttons = defaultButtons
 	return playReleaseText, playReleaseTTS, buttons, false, nil
 }
 
 func botInfo() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
-	buttons = []dialogs.Button{
-		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		dialogs.Button{Title: "Последний выпуск", Hide: false},
-		dialogs.Button{Title: "Следующий выпуск", Hide: false},
-		dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
-		dialogs.Button{Title: "Закончить ❌"},
-	}
+	buttons = defaultButtons
 	return botInfoText, botInfoTTS, buttons, false, nil
 }
 
