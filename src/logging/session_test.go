@@ -26,7 +26,7 @@ func TestAdd(t *testing.T) {
 	c := "0"
 	for _, tt := range tests {
 		c = incStr(c)
-		s.add(tt.sessionID, c)
+		s.add(tt.sessionID)
 	}
 
 	if len(s.sessions) != len(tests) {
@@ -43,9 +43,7 @@ func TestAdd(t *testing.T) {
 			continue
 		}
 
-		if n, err := s.getNumber(tt.sessionID); err != nil {
-			t.Errorf("Test #%d Got error %s", i, err.Error())
-		} else if n != tt.key {
+		if n, _ := s.getNumber(tt.sessionID); n != tt.key {
 			t.Errorf("Test #%d Want number: %s Got: %s", i, tt.key, n)
 		}
 	}
@@ -70,7 +68,7 @@ func TestDelete(t *testing.T) {
 	c := "0"
 	for _, tt := range addTests {
 		c = incStr(c)
-		s.add(tt.sessionID, c)
+		s.add(tt.sessionID)
 	}
 
 	if len(s.sessions) != len(addTests) {
