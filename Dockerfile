@@ -1,6 +1,10 @@
 FROM alpine
+RUN apk update && apk upgrade
+# Change timezone
+RUN apk add --no-cache tzdata
+ENV TZ Europe/Moscow
 # Add binary
-RUN mkdir /app && mkdir /app/logs
+RUN mkdir /app
 WORKDIR /app
 COPY app .
 EXPOSE 80
