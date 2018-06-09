@@ -1,7 +1,6 @@
 package bot
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 
@@ -9,20 +8,9 @@ import (
 	"logging"
 )
 
-// Index serves POST requests
-func Index(w http.ResponseWriter, r *http.Request) {
-	var req dialogs.Request
-	json.NewDecoder(r.Body).Decode(&req)
-
-	var res dialogs.Response
-	res.Response.Text, res.Response.TTS, res.Response.Buttons, res.Response.EndSession = distribute(req)
-
-	res.Session.SessionID = req.Session.SessionID
-	res.Session.MessageID = req.Session.MessageID
-	res.Session.UserID = req.Session.UserID
-	res.Version = req.Version
-
-	json.NewEncoder(w).Encode(res)
+func Init() func(http.ResponseWriter, *http.Request) {
+	api := dialogs.DialogsAPI{DistributeFunc: distribute}
+	return api.StartSevring()
 }
 
 var commands = []struct {
