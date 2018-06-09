@@ -13,32 +13,22 @@ import (
 )
 
 func main() {
-	var port string
-	var debug bool
+	const port = ":80"
 
-	flag.StringVar(&port, "port", ":505", "port for bot")
+	var debug bool
 	flag.BoolVar(&debug, "debug", false, "debug mode")
 	flag.Parse()
-	if port[0] != ':' {
-		port = ":" + port
-	}
-
+	
 	router := mux.NewRouter()
-	router.Path("/").Methods("POST").HandlerFunc(bot.Index)
+	router.Path("/").Methods("POST").HandlerFunc(bot.Init())
 	router.Path("/").Methods("GET").HandlerFunc(index)
 
-	if err := logging.Init("logs.log"); err != nil {
+	if err := logging.Init("logs"); err != nil {
 		log.Fatalf("[ERR] %s", err.Error())
 	}
 
-	if debug {
-		if err := http.ListenAndServe(port, router); err != nil {
-			log.Fatalf("[ERR] %s", err.Error())
-		}
-	} else {
-		if err := http.ListenAndServeTLS(port, "public.pem", "private.key", router); err != nil {
-			log.Fatalf("[ERR] %s", err.Error())
-		}
+	if err := http.ListenAndServeTLS(port, "ssl/public.pem", "ssl/private.key", router); err != nil {
+		log.Fatalf("[ERR] %s", err.Error())
 	}
 }
 

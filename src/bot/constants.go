@@ -1,26 +1,38 @@
 package bot
 
-const rssURL = "http://feeds.rucast.net/radio-t"
+import (
+	"dialogs"
+)
 
-const site = "https://radio-t.com/"
+const (
+	rssURL = "http://feeds.rucast.net/radio-t"
 
-const mainInformationText = "Радио-Т - это еженедельный HiTech подкаст на русском языке.\n\nЧто вы хотите узнать?"
-const mainInformationTTS = "Радио-Т - это еженедельный Х+айТ+эк падкаст на русском языке. - - - - - - - - - - Что вы хотите узнать?"
+	site = "https://radio-t.com/"
 
-const lastReleaseText = "Последний выпуск – %s. Вышел %s\nТемы:\n%s"
-const lastReleaseTTS = "Последний выпуск – %s. Вышел %s. - - - - - - - - - - Ещё что-нибудь?"
+	mainInformationText = "Радио-Т - это еженедельный HiTech подкаст на русском языке.\n\nЧто вы хотите узнать?"
+	mainInformationTTS  = "Радио-Т - это еженедельный Х+айТ+эк падкаст на русском языке. - - - - - - - - - - Что вы хотите узнать?"
 
-const nextReleaseText = "Следующий выпуск будет через %d %s %d %s"
-const nextReleaseTTS = "Следующий выпуск будет через %d %s %d %s. - - - - - - - - - - Ещё что-нибудь?"
+	lastReleaseText = "Последний выпуск – %s. Вышел %s\nТемы:\n%s"
+	lastReleaseTTS  = "Последний выпуск – %s. Вышел %s. - - - - - - - - - - Ещё что-нибудь?"
 
-const nextGeekReleaseText = "Следующий гиковский выпуск будет через %d %s %d %s"
-const nextGeekReleaseTTS = "Следующий гиковский выпуск будет через %d %s %d %s. - - - - - - - - - - Ещё что-нибудь?"
+	nextReleaseText = "Следующий выпуск будет через %d %s %d %s"
+	nextReleaseTTS  = "Следующий выпуск будет через %d %s %d %s. - - - - - - - - - - Ещё что-нибудь?"
 
-const endConverseationText = "Пока! Если что, вы всегда можете вызвать меня снова"
-const endConverseationTTS = "Пока! Если что, вы всегда можете вызвать меня снова"
+	nextGeekReleaseText = "Следующий гиковский выпуск будет через %d %s %d %s"
+	nextGeekReleaseTTS  = "Следующий гиковский выпуск будет через %d %s %d %s. - - - - - - - - - - Ещё что-нибудь?"
 
-const wrongCommandText = "Неверная команда. Для того, чтобы узнать, что бот умеет скажите \"Помощь\""
-const wrongCommandTTS = "Неверная команда. Для того, чтобы узнать, что бот умеет скажите - Помощь. Или, может быть, подойдёт что-то из этого?"
+	endConverseationText = "Пока! Если что, вы всегда можете вызвать меня снова"
+	endConverseationTTS  = "Пока! Если что, вы всегда можете вызвать меня снова"
+
+	wrongCommandText = "Неверная команда. Для того, чтобы узнать, что бот умеет скажите \"Помощь\""
+	wrongCommandTTS  = "Неверная команда. Для того, чтобы узнать, что бот умеет скажите - Помощь. Или, может быть, подойдёт что-то из этого?"
+
+	playReleaseText = "К сожалению, я пока этого не умею. Может, что-нибудь другое?"
+	playReleaseTTS  = "К сожалению, я пока этого не умею. Может, что-нибудь другое?"
+
+	errorText = "Ой, что-то пошло не так."
+	errorTTS  = "Ой, что-то пошло не так. Может, попробуете что-нибудь другое?"
+)
 
 const botInfoText = `Это бот для еженедельного HiTech подкаста Радио-Т. Он позволяет узнать:
 * когда будет следующий выпуск;
@@ -36,5 +48,11 @@ const botInfoText = `Это бот для еженедельного HiTech по
 Что вы хотите узнать?`
 const botInfoTTS = "Это бот для еженедельного Х+айТ+эк падкаста Радио-Т. - - - - - - - - - - Что вы хотите узнать?"
 
-const errorText = "Ой, что-то пошло не так."
-const errorTTS = "Ой, что-то пошло не так. Может, попробуете что-нибудь другое?"
+var defaultButtons = []dialogs.Button{
+	dialogs.Button{Title: "Помощь"},
+	dialogs.Button{Title: "Сайт подкаста", URL: site},
+	dialogs.Button{Title: "Последний выпуск"},
+	dialogs.Button{Title: "Следующий выпуск"},
+	dialogs.Button{Title: "Следующий гиковский выпуск"},
+	dialogs.Button{Title: "Закончить ❌"},
+}

@@ -1,32 +1,22 @@
 package bot
 
 import (
-	"encoding/json"
 	"net/http"
 	"strings"
 
+	"dialogs"
 	"logging"
 )
 
-// Index serves POST requests
-func Index(w http.ResponseWriter, r *http.Request) {
-	var req Request
-	json.NewDecoder(r.Body).Decode(&req)
-
-	var res Response
-	res.Response.Text, res.Response.TTS, res.Response.Buttons, res.Response.EndSession = distribute(req.Request.Command)
-
-	res.Session.SessionID = req.Session.SessionID
-	res.Session.MessageID = req.Session.MessageID
-	res.Session.UserID = req.Session.UserID
-	res.Version = req.Version
-
-	json.NewEncoder(w).Encode(res)
+// Init return function for serving of requests
+func Init() func(http.ResponseWriter, *http.Request) {
+	api := dialogs.DialogsAPI{DistributeFunc: distribute}
+	return api.StartServing()
 }
 
 var commands = []struct {
 	keyWords []string
-	handler  func() (string, string, []Button, bool, error)
+	handler  func() (string, string, []dialogs.Button, bool, error)
 }{
 	{[]string{
 		"подкаст выходного дня",
@@ -64,21 +54,29 @@ var commands = []struct {
 		"что ты можешь"},
 		botInfo}, // send info about the bot
 	{[]string{
+		"проиграй",
+		"запусти",
+		"включи",
+		"послушать",
+		"слушать"},
+		playRelease},
+	{[]string{
 		"закончить",
 		"всё",
 		"все",
-		"конец"},
+		"конец",
+		"до свидания"},
 		endConverseation}, // stop dialogue
 }
 
-func distribute(command string) (text, tts string, buttons []Button, endSession bool) {
-	command = strings.ToLower(command)
+func distribute(req dialogs.Request) (text, tts string, buttons []dialogs.Button, endSession bool) {
+	command := strings.ToLower(req.Request.Command)
 	// For Yandex ping
 	if command == "ping" {
 		return "pong", "pong", buttons, true
 	}
 
-	logging.LogRequest(command)
+	logging.LogRequest(command, req.Session.SessionID)
 
 	// If phrase == "Запусти навык подкаст выходного дня"
 	if command == "" {
@@ -86,8 +84,10 @@ func distribute(command string) (text, tts string, buttons []Button, endSession 
 		return text, tts, buttons, endSession
 	}
 
-	rightCommand := false
-	var err error
+	var (
+		rightCommand bool // default == false
+		err          error
+	)
 	for i := 0; i < len(commands) && !rightCommand; i++ {
 		for j := 0; j < len(commands[i].keyWords) && !rightCommand; j++ {
 			keyWord := commands[i].keyWords[j]
@@ -98,25 +98,11 @@ func distribute(command string) (text, tts string, buttons []Button, endSession 
 		}
 	}
 
-	if err != nil || !rightCommand {
-		buttons = []Button{
-			Button{Title: "Помощь"},
-			Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
-			Button{Title: "Последний выпуск", Hide: false},
-			Button{Title: "Следующий выпуск", Hide: false},
-			Button{Title: "Следующий гиковский выпуск", Hide: false},
-			Button{Title: "Закончить ❌"},
-		}
-		endSession = false
-
-		if err != nil {
-			logging.LogError(err)
-			text = errorText
-			tts = errorTTS
-		} else if !rightCommand {
-			text = wrongCommandText
-			tts = wrongCommandTTS
-		}
+	if err != nil {
+		logging.LogError(err)
+		text, tts, buttons, endSession = serveError()
+	} else if !rightCommand {
+		text, tts, buttons, endSession = wrongCommand()
 	}
 
 	return text, tts, buttons, endSession
