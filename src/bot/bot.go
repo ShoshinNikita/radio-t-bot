@@ -8,6 +8,7 @@ import (
 	"logging"
 )
 
+// Init return function for serving of requests
 func Init() func(http.ResponseWriter, *http.Request) {
 	api := dialogs.DialogsAPI{DistributeFunc: distribute}
 	return api.StartSevring()
@@ -83,8 +84,10 @@ func distribute(req dialogs.Request) (text, tts string, buttons []dialogs.Button
 		return text, tts, buttons, endSession
 	}
 
-	rightCommand := false
-	var err error
+	var (
+		rightCommand bool // default == false
+		err          error
+	)
 	for i := 0; i < len(commands) && !rightCommand; i++ {
 		for j := 0; j < len(commands[i].keyWords) && !rightCommand; j++ {
 			keyWord := commands[i].keyWords[j]
@@ -95,25 +98,11 @@ func distribute(req dialogs.Request) (text, tts string, buttons []dialogs.Button
 		}
 	}
 
-	if err != nil || !rightCommand {
-		buttons = []dialogs.Button{
-			dialogs.Button{Title: "Помощь"},
-			dialogs.Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
-			dialogs.Button{Title: "Последний выпуск", Hide: false},
-			dialogs.Button{Title: "Следующий выпуск", Hide: false},
-			dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
-			dialogs.Button{Title: "Закончить ❌"},
-		}
-		endSession = false
-
-		if err != nil {
-			logging.LogError(err)
-			text = errorText
-			tts = errorTTS
-		} else if !rightCommand {
-			text = wrongCommandText
-			tts = wrongCommandTTS
-		}
+	if err != nil {
+		logging.LogError(err)
+		text, tts, buttons, endSession = serveError()
+	} else if !rightCommand {
+		text, tts, buttons, endSession = wrongCommand()
 	}
 
 	return text, tts, buttons, endSession

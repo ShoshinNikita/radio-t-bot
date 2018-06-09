@@ -109,3 +109,11 @@ func botInfo() (text, tts string, buttons []dialogs.Button, endSession bool, err
 func endConverseation() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
 	return endConverseationText, endConverseationTTS, buttons, true, nil
 }
+
+func serveError() (text, tts string, buttons []dialogs.Button, endSession bool) {
+	return errorText, errorTTS, defaultButtons, false
+}
+
+func wrongCommand() (text, tts string, buttons []dialogs.Button, endSession bool) {
+	return wrongCommandText, wrongCommandTTS, defaultButtons, false
+}
