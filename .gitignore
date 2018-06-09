@@ -1,6 +1,5 @@
 *.key
 *.pem
-*.bat
 logs
 pkg
 .vscode
