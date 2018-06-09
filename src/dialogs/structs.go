@@ -1,4 +1,4 @@
-package bot
+package dialogs
 
 type Request struct {
 	Meta struct {

@@ -8,32 +8,33 @@ import (
 	"github.com/mmcdole/gofeed"
 
 	"dates"
+	"dialogs"
 )
 
 // Returns main information about the podcast
-func mainInfo() (text, tts string, buttons []Button, endSession bool, err error) {
+func mainInfo() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
 	text = mainInformationText
 	tts = mainInformationTTS
-	buttons = []Button{
-		Button{Title: "Помощь"},
-		Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		Button{Title: "Последний выпуск", Hide: false},
-		Button{Title: "Следующий выпуск", Hide: false},
-		Button{Title: "Следующий гиковский выпуск", Hide: false},
-		Button{Title: "Закончить ❌"},
+	buttons = []dialogs.Button{
+		dialogs.Button{Title: "Помощь"},
+		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
+		dialogs.Button{Title: "Последний выпуск", Hide: false},
+		dialogs.Button{Title: "Следующий выпуск", Hide: false},
+		dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
+		dialogs.Button{Title: "Закончить ❌"},
 	}
 
 	return text, tts, buttons, false, nil
 }
 
 // Returns URL of the site
-func siteURL() (text, tts string, buttons []Button, endSession bool, err error) {
-	buttons = append(buttons, Button{Title: "Сайт подкаста", URL: site, Hide: false})
+func siteURL() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
+	buttons = append(buttons, dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false})
 	return "Сайт подкаста Радио-Т", "", buttons, false, nil
 }
 
 // Returns number and URL of the last release
-func lastRelease() (text, tts string, buttons []Button, endSession bool, err error) {
+func lastRelease() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
 	parser := gofeed.NewParser()
 	feed, err := parser.ParseURL(rssURL)
 	if err != nil {
@@ -52,12 +53,12 @@ func lastRelease() (text, tts string, buttons []Button, endSession bool, err err
 	// (https://radio-t.com/p/2018/05/26//podcast-599/ -> https://radio-t.com/p/2018/05/26/podcast-599/)
 	url = strings.Replace(url, "//podcast", "/podcast", -1)
 
-	buttons = []Button{
-		Button{Title: "Перейти к выпуску", URL: url},
-		Button{Title: "Сайт подкаста", URL: site},
-		Button{Title: "Следующий выпуск"},
-		Button{Title: "Следующий гиковский выпуск"},
-		Button{Title: "Закончить ❌"},
+	buttons = []dialogs.Button{
+		dialogs.Button{Title: "Перейти к выпуску", URL: url},
+		dialogs.Button{Title: "Сайт подкаста", URL: site},
+		dialogs.Button{Title: "Следующий выпуск"},
+		dialogs.Button{Title: "Следующий гиковский выпуск"},
+		dialogs.Button{Title: "Закончить ❌"},
 	}
 
 	text = fmt.Sprintf(lastReleaseText, number, date, themes)
@@ -67,64 +68,64 @@ func lastRelease() (text, tts string, buttons []Button, endSession bool, err err
 }
 
 // Returns left time (id days) until the next release
-func nextRelease() (text, tts string, buttons []Button, endSession bool, err error) {
+func nextRelease() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
 	days, hours := dates.NextSaturday(time.Now())
 	day := dates.ParseDays(days)
 	hour := dates.ParseHours(hours)
 
 	text = fmt.Sprintf(nextReleaseText, days, day, hours, hour)
 	tts = fmt.Sprintf(nextReleaseTTS, days, day, hours, hour)
-	buttons = []Button{
-		Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		Button{Title: "Последний выпуск", Hide: false},
-		Button{Title: "Следующий гиковский выпуск", Hide: false},
-		Button{Title: "Закончить ❌"},
+	buttons = []dialogs.Button{
+		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
+		dialogs.Button{Title: "Последний выпуск", Hide: false},
+		dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
+		dialogs.Button{Title: "Закончить ❌"},
 	}
 
 	return text, tts, buttons, false, nil
 }
 
 // Returns left time (id days) until next geek release
-func nextGeekRelease() (text, tts string, buttons []Button, endSession bool, err error) {
+func nextGeekRelease() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
 	days, hours := dates.NextGeekSaturday(time.Now())
 	day := dates.ParseDays(days)
 	hour := dates.ParseHours(hours)
 
 	text = fmt.Sprintf(nextGeekReleaseText, days, day, hours, hour)
 	tts = fmt.Sprintf(nextGeekReleaseTTS, days, day, hours, hour)
-	buttons = []Button{
-		Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		Button{Title: "Последний выпуск", Hide: false},
-		Button{Title: "Следующий выпуск", Hide: false},
-		Button{Title: "Закончить ❌"},
+	buttons = []dialogs.Button{
+		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
+		dialogs.Button{Title: "Последний выпуск", Hide: false},
+		dialogs.Button{Title: "Следующий выпуск", Hide: false},
+		dialogs.Button{Title: "Закончить ❌"},
 	}
 
 	return text, tts, buttons, false, nil
 }
 
-func playRelease() (text, tts string, buttons []Button, endSession bool, err error) {
-	buttons = []Button{
-		Button{Title: "Помощь"},
-		Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		Button{Title: "Последний выпуск", Hide: false},
-		Button{Title: "Следующий выпуск", Hide: false},
-		Button{Title: "Следующий гиковский выпуск", Hide: false},
-		Button{Title: "Закончить ❌"},
+func playRelease() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
+	buttons = []dialogs.Button{
+		dialogs.Button{Title: "Помощь"},
+		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
+		dialogs.Button{Title: "Последний выпуск", Hide: false},
+		dialogs.Button{Title: "Следующий выпуск", Hide: false},
+		dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
+		dialogs.Button{Title: "Закончить ❌"},
 	}
 	return playReleaseText, playReleaseTTS, buttons, false, nil
 }
 
-func botInfo() (text, tts string, buttons []Button, endSession bool, err error) {
-	buttons = []Button{
-		Button{Title: "Сайт подкаста", URL: site, Hide: false},
-		Button{Title: "Последний выпуск", Hide: false},
-		Button{Title: "Следующий выпуск", Hide: false},
-		Button{Title: "Следующий гиковский выпуск", Hide: false},
-		Button{Title: "Закончить ❌"},
+func botInfo() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
+	buttons = []dialogs.Button{
+		dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: false},
+		dialogs.Button{Title: "Последний выпуск", Hide: false},
+		dialogs.Button{Title: "Следующий выпуск", Hide: false},
+		dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
+		dialogs.Button{Title: "Закончить ❌"},
 	}
 	return botInfoText, botInfoTTS, buttons, false, nil
 }
 
-func endConverseation() (text, tts string, buttons []Button, endSession bool, err error) {
+func endConverseation() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
 	return endConverseationText, endConverseationTTS, buttons, true, nil
 }

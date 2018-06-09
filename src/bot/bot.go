@@ -5,15 +5,16 @@ import (
 	"net/http"
 	"strings"
 
+	"dialogs"
 	"logging"
 )
 
 // Index serves POST requests
 func Index(w http.ResponseWriter, r *http.Request) {
-	var req Request
+	var req dialogs.Request
 	json.NewDecoder(r.Body).Decode(&req)
 
-	var res Response
+	var res dialogs.Response
 	res.Response.Text, res.Response.TTS, res.Response.Buttons, res.Response.EndSession = distribute(req)
 
 	res.Session.SessionID = req.Session.SessionID
@@ -26,7 +27,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 
 var commands = []struct {
 	keyWords []string
-	handler  func() (string, string, []Button, bool, error)
+	handler  func() (string, string, []dialogs.Button, bool, error)
 }{
 	{[]string{
 		"подкаст выходного дня",
@@ -79,7 +80,7 @@ var commands = []struct {
 		endConverseation}, // stop dialogue
 }
 
-func distribute(req Request) (text, tts string, buttons []Button, endSession bool) {
+func distribute(req dialogs.Request) (text, tts string, buttons []dialogs.Button, endSession bool) {
 	command := strings.ToLower(req.Request.Command)
 	// For Yandex ping
 	if command == "ping" {
@@ -107,13 +108,13 @@ func distribute(req Request) (text, tts string, buttons []Button, endSession boo
 	}
 
 	if err != nil || !rightCommand {
-		buttons = []Button{
-			Button{Title: "Помощь"},
-			Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
-			Button{Title: "Последний выпуск", Hide: false},
-			Button{Title: "Следующий выпуск", Hide: false},
-			Button{Title: "Следующий гиковский выпуск", Hide: false},
-			Button{Title: "Закончить ❌"},
+		buttons = []dialogs.Button{
+			dialogs.Button{Title: "Помощь"},
+			dialogs.Button{Title: "Сайт подкаста", URL: "https://radio-t.com/", Hide: false},
+			dialogs.Button{Title: "Последний выпуск", Hide: false},
+			dialogs.Button{Title: "Следующий выпуск", Hide: false},
+			dialogs.Button{Title: "Следующий гиковский выпуск", Hide: false},
+			dialogs.Button{Title: "Закончить ❌"},
 		}
 		endSession = false
 
