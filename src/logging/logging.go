@@ -59,7 +59,12 @@ func Init(path string) (err error) {
 	return err
 }
 
+// LogError is a wrapper for logError()
 func LogError(err error) {
+	go logError(err)
+}
+
+func logError(err error) {
 	if err == nil {
 		return
 	}
@@ -70,7 +75,12 @@ func LogError(err error) {
 	logErrorsFile.WriteString(fmt.Sprintf("[ERR] %s Error: %s\n", t.Format(formatTime), err.Error()))
 }
 
+// LogRequest is a wrapper for logRequest()
 func LogRequest(command, sessionID string) {
+	go logRequest(command, sessionID)
+}
+
+func logRequest(command, sessionID string) {
 	logReqMutex.Lock()
 	defer logReqMutex.Unlock()
 

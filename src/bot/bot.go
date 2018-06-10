@@ -76,13 +76,14 @@ func distribute(req dialogs.Request) (text, tts string, buttons []dialogs.Button
 		return "pong", "pong", buttons, true
 	}
 
-	logging.LogRequest(command, req.Session.SessionID)
-
-	// If phrase == "Запусти навык подкаст выходного дня"
+	// If phrase == "Запусти навык (подкаст выходного дня|радио т)"
 	if command == "" {
+		logging.LogRequest(req.Request.OriginalUtterance, req.Session.SessionID)
 		text, tts, buttons, endSession, _ = botInfo()
 		return text, tts, buttons, endSession
 	}
+
+	logging.LogRequest(command, req.Session.SessionID)
 
 	var (
 		rightCommand bool // default == false
