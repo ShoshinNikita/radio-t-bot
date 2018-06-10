@@ -19,29 +19,27 @@ import (
 	"strings"
 	"sync"
 	"time"
-
-	"github.com/boltdb/bolt"
 )
 
 // dd-mm-yyyy hh:mm:ss
 const (
 	formatTime          = "02-01-2006 15:04:05"
 	errFileName         = "errors.log"
-	reqFileName         = "requests.db"
+	reqFileName         = "requests.log"
 	clearingHoursNumber = 6
 )
 
 var (
 	logErrorsFile  *os.File
 	logErrorsMutex *sync.Mutex
-	logReqDB       *bolt.DB
-	sessions       sessionsMap
+	logReqFile     *os.File
+	logReqMutex    *sync.Mutex
 )
 
 // Init initializes files for logging
 // path must consist path to the folder (not to the files)
 // Name of the logErrorsFile – errors.log
-//      of the logReqDB      – requests.db
+//      of the logReqFile    - requests.log
 func Init(path string) (err error) {
 	if !strings.HasSuffix(path, "/") {
 		path += "/"
@@ -55,25 +53,8 @@ func Init(path string) (err error) {
 	}
 
 	// Init logReq
-	logReqDB, err = bolt.Open(path+reqFileName, 0600, nil)
-	if err != nil {
-		return err
-	}
-	var counter string
-	err = logReqDB.Update(func(tx *bolt.Tx) error {
-		b, _ := tx.CreateBucketIfNotExists([]byte("requests"))
-		// Add counter if it doesn't exist
-		if v := b.Get([]byte("0")); v == nil {
-			b.Put([]byte("0"), []byte("0"))
-		}
-		counter = string(b.Get([]byte("0")))
-
-		return nil
-	})
-
-	// Init sessions
-	sessions.init(time.Duration(clearingHoursNumber)*time.Hour, counter)
-	go sessions.deleteOld()
+	logReqMutex = new(sync.Mutex)
+	logReqFile, err = os.OpenFile(path+reqFileName, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 
 	return err
 }
@@ -86,43 +67,13 @@ func LogError(err error) {
 	defer logErrorsMutex.Unlock()
 
 	t := time.Now()
-	logErrorsFile.WriteString(fmt.Sprintf("[ERR] %s %s\n", t.Format(formatTime), err.Error()))
+	logErrorsFile.WriteString(fmt.Sprintf("[ERR] %s Error: %s\n", t.Format(formatTime), err.Error()))
 }
 
 func LogRequest(command, sessionID string) {
-	var (
-		sessionNumber string
-		ok            bool
-	)
+	logReqMutex.Lock()
+	defer logReqMutex.Unlock()
 
-	if sessionNumber, ok = sessions.getNumber(sessionID); !ok {
-		sessionNumber = sessions.add(sessionID)
-	}
-	time := time.Now().Format(formatTime)
-	key := sessionNumber + "-" + sessionID
-
-	logReqDB.Update(func(tx *bolt.Tx) error {
-		requests := tx.Bucket([]byte("requests"))
-		b := requests.Bucket([]byte(key))
-
-		// Counter has key "0"
-		counter := "1"
-		if b == nil {
-			// If bucket doesn't exits - create bucket
-			b, _ = requests.CreateBucket([]byte(key))
-			// Change counter of sessions. The counter was increase when we tried to getNumber()
-			// and got error, then sessions.add() was called
-			requests.Put([]byte("0"), []byte(sessions.getCounter()))
-		} else {
-			// If bucket exists - increase counter
-			counter = string(b.Get([]byte("0")))
-			counter = incStr(counter)
-		}
-		b.Put([]byte("0"), []byte(counter))
-
-		text := time + " - " + command
-		b.Put([]byte(counter), []byte(text))
-
-		return nil
-	})
+	t := time.Now()
+	logReqFile.WriteString(fmt.Sprintf("[REQ] %s Session: %s Req: %s\n", t.Format(formatTime), sessionID, command))
 }
