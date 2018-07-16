@@ -94,7 +94,6 @@ func nextGeekRelease() (text, tts string, buttons []dialogs.Button, endSession b
 }
 
 func playRelease() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
-	buttons = defaultButtons
 	return playReleaseText, playReleaseTTS, defaultButtons, false, nil
 }
 
