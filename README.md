@@ -2,7 +2,7 @@
 
 Radio-T-bot is a bot for ["Yandex.Dialogs"](https://dialogs.yandex.ru/)
 
-[Link to the skill](https://aliceskill.ru/skill/radio-t---hitech-podkast-vyihodnogo-dnya/)
+[Link to the skill](https://dialogs.yandex.ru/store/skills/59f0e8df-radio-t-hitech-podkast-vyhodnogo-dnya)
 
 ## Skills
 
