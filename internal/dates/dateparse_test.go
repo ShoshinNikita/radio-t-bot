@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	. "dates"
+	. "github.com/ShoshinNikita/radio-t-bot/internal/dates"
 )
 
 func TestParse(t *testing.T) {
