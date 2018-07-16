@@ -27,8 +27,14 @@ func main() {
 		log.Fatalf("[ERR] %s\n", err.Error())
 	}
 
-	if err := http.ListenAndServeTLS(port, "ssl/public.pem", "ssl/private.key", router); err != nil {
-		log.Fatalf("[ERR] %s\n", err.Error())
+	if debug {
+		if err := http.ListenAndServe(port, router); err != nil {
+			log.Fatalf("[ERR] %s\n", err.Error())
+		}
+	} else {
+		if err := http.ListenAndServeTLS(port, "ssl/public.pem", "ssl/private.key", router); err != nil {
+			log.Fatalf("[ERR] %s\n", err.Error())
+		}
 	}
 }
 
