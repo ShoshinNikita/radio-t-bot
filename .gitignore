@@ -1,4 +1,5 @@
 .vscode
+build/radio-t-bot
 logs
 ssl
 *.bat
