@@ -18,7 +18,7 @@ func main() {
 	var debug bool
 	flag.BoolVar(&debug, "debug", false, "debug mode")
 	flag.Parse()
-	
+
 	router := mux.NewRouter()
 	router.Path("/").Methods("POST").HandlerFunc(bot.Init())
 	router.Path("/").Methods("GET").HandlerFunc(index)

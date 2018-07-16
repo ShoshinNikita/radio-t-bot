@@ -23,9 +23,9 @@ import (
 
 // dd-mm-yyyy hh:mm:ss
 const (
-	formatTime          = "02-01-2006 15:04:05"
-	errFileName         = "errors.log"
-	reqFileName         = "requests.log"
+	formatTime  = "02-01-2006 15:04:05"
+	errFileName = "errors.log"
+	reqFileName = "requests.log"
 )
 
 var (
