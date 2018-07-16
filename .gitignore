@@ -1,7 +1,4 @@
-*.key
-*.pem
-logs
-pkg
 .vscode
-*.log
-radio-t-bot
+logs
+ssl
+*.bat
