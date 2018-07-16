@@ -7,8 +7,8 @@ import (
 
 	"github.com/mmcdole/gofeed"
 
-	"dates"
-	"dialogs"
+	"github.com/ShoshinNikita/radio-t-bot/internal/dates"
+	"github.com/ShoshinNikita/radio-t-bot/internal/dialogs"
 )
 
 // Returns main information about the podcast

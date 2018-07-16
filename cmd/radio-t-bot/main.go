@@ -8,8 +8,8 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"bot"
-	"logging"
+	"github.com/ShoshinNikita/radio-t-bot/internal/bot"
+	"github.com/ShoshinNikita/radio-t-bot/internal/logging"
 )
 
 func main() {

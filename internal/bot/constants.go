@@ -1,7 +1,7 @@
 package bot
 
 import (
-	"dialogs"
+	"github.com/ShoshinNikita/radio-t-bot/internal/dialogs"
 )
 
 const (

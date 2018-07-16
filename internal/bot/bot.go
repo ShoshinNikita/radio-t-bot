@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"strings"
 
-	"dialogs"
-	"logging"
+	"github.com/ShoshinNikita/radio-t-bot/internal/dialogs"
+	"github.com/ShoshinNikita/radio-t-bot/internal/logging"
 )
 
 // Init return function for serving of requests
