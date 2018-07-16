@@ -24,15 +24,14 @@ func main() {
 	router.Path("/").Methods("GET").HandlerFunc(index)
 
 	if err := logging.Init("logs"); err != nil {
-		log.Fatalf("[ERR] %s", err.Error())
+		log.Fatalf("[ERR] %s\n", err.Error())
 	}
 
 	if err := http.ListenAndServeTLS(port, "ssl/public.pem", "ssl/private.key", router); err != nil {
-		log.Fatalf("[ERR] %s", err.Error())
+		log.Fatalf("[ERR] %s\n", err.Error())
 	}
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusOK)
 	fmt.Fprint(w, "Bot is working")
 }

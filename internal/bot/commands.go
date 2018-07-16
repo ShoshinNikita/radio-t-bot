@@ -13,16 +13,13 @@ import (
 
 // Returns main information about the podcast
 func mainInfo() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
-	text = mainInformationText
-	tts = mainInformationTTS
-	buttons = defaultButtons
-
-	return text, tts, buttons, false, nil
+	return mainInformationText, mainInformationTTS, defaultButtons, false, nil
 }
 
 // Returns URL of the site
 func siteURL() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
-	buttons = append(buttons, dialogs.Button{Title: "Сайт подкаста", URL: site})
+	buttons = []dialogs.Button{dialogs.Button{Title: "Сайт подкаста", URL: site, Hide: true}}
+
 	return "Сайт подкаста Радио-Т", "", buttons, false, nil
 }
 
@@ -98,12 +95,11 @@ func nextGeekRelease() (text, tts string, buttons []dialogs.Button, endSession b
 
 func playRelease() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
 	buttons = defaultButtons
-	return playReleaseText, playReleaseTTS, buttons, false, nil
+	return playReleaseText, playReleaseTTS, defaultButtons, false, nil
 }
 
 func botInfo() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {
-	buttons = defaultButtons
-	return botInfoText, botInfoTTS, buttons, false, nil
+	return botInfoText, botInfoTTS, defaultButtons, false, nil
 }
 
 func endConverseation() (text, tts string, buttons []dialogs.Button, endSession bool, err error) {

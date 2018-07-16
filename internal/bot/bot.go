@@ -72,6 +72,7 @@ var commands = []struct {
 func distribute(req dialogs.Request) (text, tts string, buttons []dialogs.Button, endSession bool) {
 	command := strings.ToLower(req.Request.Command)
 	// For Yandex ping
+	// We don't want to log such requests
 	if command == "ping" {
 		return "pong", "pong", buttons, true
 	}
